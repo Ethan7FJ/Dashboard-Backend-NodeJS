@@ -1,23 +1,28 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
+import { JwtPayload } from "../payload/jwtPayload";
+import { AuthService } from "../services/auth.services";
+import { AxiosError } from "axios";
 
 dotenv.config();
 
 const SECRET = process.env.JWT_SECRET as string;
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers["authorization"]?.split(" ")[1];
+    const authHeader = req.headers.authorization
+    const token = authHeader?.split(" ")[1]
 
     if (!token) {
-        return res.status(403).json({ error: "Token requerido" })
+        return res.status(403).json({ error: "Token Requerido" })
     }
 
     try {
-        const decoded = jwt.verify(token, SECRET);
-        (req as any).user = decoded;
+        const decoded = AuthService.verifyToken(token);
+        req.user = decoded
         next()
     } catch (err) {
-        return res.status(401).json({ error: "Token inválido o expirado" });
+        const error = err as AxiosError<{ error?: string }>
+        next(error)
     }
 }

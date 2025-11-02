@@ -69,11 +69,10 @@ export const AuthRegister = async (req: Request, res: Response) => {
 }
 
 /* VALIDACION DEL TOKEN PARA EL INGRESO AL DASHBOARD */
-
 export const AuthDashboard = async (req: Request, res: Response) =>{
-    const usuario = (req as any).user
+    const usuario = req.user
     return res.json({
         success: true,
         usuario,
     })
-}   
+}
