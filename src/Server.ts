@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { errorHandler } from "./middlewares/error.middleware";
 import AuthRoutes from "./routes/auth.routes";
+import InventaryRoutes from "./routes/inventary.routes";
 
 dotenv.config();
 
@@ -10,11 +11,12 @@ const app = express();
 app.use(express.json());
 app.use(cors({
   origin: `${process.env.FRONT_ORIGIN_HOST}`,
-  credentials:true
+  credentials: true
 }));
 
 
 app.use("/auth", AuthRoutes);
+app.use("/inv", InventaryRoutes);
 
 
 app.get("/", (req, res) => {
@@ -25,5 +27,5 @@ app.use(errorHandler)
 
 
 app.listen(4000, () => {
-    console.log(`El servidor se esta ejecutando en http://localhost:4000`);
+  console.log(`El servidor se esta ejecutando en http://localhost:4000`);
 });

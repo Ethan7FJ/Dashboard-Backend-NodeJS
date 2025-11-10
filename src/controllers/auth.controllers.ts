@@ -23,17 +23,17 @@ export const AuthLogin = async (req: Request, res: Response) => {
         const usuario = validar[0];
 
         const desCript = await bcrypt.compare(password, usuario.password);
-        if(!desCript){
-            return res.status(401).json({error: "La contraseña ingresada no es la correcta, Intente de nuevo"})
+        if (!desCript) {
+            return res.status(401).json({ error: "La contraseña ingresada no es la correcta, Intente de nuevo" })
         }
 
         const token = jwt.sign(
-            {id: usuario.id, nombre: usuario.nombre, email: usuario.email},
+            { id: usuario.id, nombre: usuario.nombre, email: usuario.email },
             SECRET,
-            {expiresIn: "1h"}
+            { expiresIn: "1h" }
         )
 
-        res.json({success: true, token})
+        res.json({ success: true, token })
 
     } catch (err) {
         console.error(err);
@@ -69,7 +69,7 @@ export const AuthRegister = async (req: Request, res: Response) => {
 }
 
 /* VALIDACION DEL TOKEN PARA EL INGRESO AL DASHBOARD */
-export const AuthDashboard = async (req: Request, res: Response) =>{
+export const AuthDashboard = async (req: Request, res: Response) => {
     const usuario = req.user
     return res.json({
         success: true,
