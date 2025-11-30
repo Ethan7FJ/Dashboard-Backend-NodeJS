@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { db } from "../config/db";
-import bcrypt from "bcryptjs";
 
 import dotenv from "dotenv";
 
@@ -25,7 +24,14 @@ export const SetProducts = async (req: Request, res: Response) => {
 
 /* DELETE PRODUCTS INVENTARY */
 export const DeleteProducts = async (req: Request, res: Response) => {
-
+    const { id } = req.params;
+    try {
+        await db.query("DELETE FROM inventario WHERE id = ?", [id]);
+        res.json({ success: true, message: "Producto eliminado correctamente" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error en el servidor" });
+    }
 }
 
 /* UPDATE PRODUCTS INVENTARY */

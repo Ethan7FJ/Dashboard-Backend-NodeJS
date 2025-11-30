@@ -1,9 +1,9 @@
+import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { db } from "../config/db";
-import bcrypt from "bcryptjs";
 
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 const SECRET = process.env.JWT_SECRET as string;
